@@ -1,3 +1,9 @@
-# unbound jenkins agent
+# unbound java jenkins agent
 
-It includes Java 11, maven, docker, curl, jq and yq
+It includes:
+- Java 11
+- maven
+- docker
+- curl
+- jq
+- yq

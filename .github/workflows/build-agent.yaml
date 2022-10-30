@@ -1,0 +1,28 @@
+name: builder jenkins unbound image
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'version'
+jobs:
+  build-docker:
+    runs-on:
+      - self-hosted
+      - Linux
+      - x64
+    steps:
+      - name: getting source code
+        uses: actions/checkout@v3
+        with:
+          path: app
+      - name: building docker
+        run: ./release.sh
+        working-directory: app
+      - name: git tagging
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git tag -fa "v.$(cat version)" "${GITHUB_SHA}" -m "tagging version v.$(cat version)"
+          git push --force origin "v.$(cat version)"
+        working-directory: app
